@@ -20,12 +20,9 @@ $ composer create-project supervisorphp/monitor
 
 ## Usage
 
-
-## Testing
-
-``` bash
-$
-```
+1. Create a `config/supervisor.yml` file. (See [example](config/supervisor.yml.example))
+2. Setup a virtual host in your webserver or start PHP built-in server: `robo server` ([Robo](http://robo.li) must be installed in your prefix)
+3. Enjoy
 
 
 ## Contributing
