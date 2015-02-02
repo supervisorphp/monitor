@@ -1,0 +1,12 @@
+root:
+  _type: prototype
+  _prototype:
+    _type: array
+    _children:
+      url:
+        _type: text
+        _required: true
+      username:
+        _type: text
+      password:
+        _type: text

@@ -1,0 +1,34 @@
+{% extends 'template.twig' %}
+
+{% block content %}
+    {% for row in instances|batch(3) %}
+        <div class="row">
+            {% for name,instance in row %}
+                {% set processes = instance.getAllProcessInfo() %}
+                {% set allProcessCount = processes|length %}
+                {% set processes = processes|slice(0, 10) %}
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong>{{ name }}</strong> | {{ allProcessCount|pluralize('process') }}
+                            <div class="pull-right">
+                                {% include 'actions_all.twig' with {'name': name} only %}
+                            </div>
+                        </div>
+                        <table class="table table-striped table-bordered">
+                            {% for process in processes %}
+                                <tr>
+                                    <td>{{ process.name }}</td>
+                                    <td><span class="label label-{{ process.statename|state }}">{{ process.statename }}</span></td>
+                                    <td>{{ process|state_ago }}</td>
+                                </tr>
+                            {% else %}
+                                <tr><td><i>No processes</i></td></tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+{% endblock %}

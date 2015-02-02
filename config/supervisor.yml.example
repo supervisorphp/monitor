@@ -1,0 +1,4 @@
+default:
+  url: http://127.0.0.1:9001/RPC2
+  username: user
+  password: 123
