@@ -82,7 +82,14 @@ class TwigExtension extends \Twig_Extension
     public function stateAgo(array $process)
     {
         if (isset($this->stateAgoMap[$process['statename']])) {
-            return Carbon::createFromTimestamp($process[$this->stateAgoMap[$process['statename']]])->diffForHumans();
+            $from = Carbon::createFromTimestamp($process[$this->stateAgoMap[$process['statename']]]);
+
+            // Ensure the remote and the local system difference is counted
+            $now = Carbon::createFromTimestamp($process['now']);
+            $diff = $now->diffInSeconds();
+            $from->subSeconds($diff);
+
+            return $from->diffForHumans();
         }
 
         return 'No uptime info';
