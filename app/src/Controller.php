@@ -14,6 +14,7 @@ namespace Supervisor\Monitor;
 use Proton\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Main controller
@@ -53,5 +54,115 @@ class Controller
         $response->setContent($template->render(['instances' => $this->app['manager']->getAll()]));
 
         return $response;
+    }
+
+    /**
+     * Starts all processes in an instance
+     *
+     * @param Request  $request
+     * @param Response $response
+     * @param array    $args
+     *
+     * @return Response
+     */
+    public function startAll(Request $request, Response $response, array $args)
+    {
+        $instance = $this->app['manager']->get($args['instance']);
+
+        $instance->startAllProcesses(false);
+
+        return new RedirectResponse('/');
+    }
+
+    /**
+     * Restarts all processes in an instance
+     *
+     * @param Request  $request
+     * @param Response $response
+     * @param array    $args
+     *
+     * @return Response
+     */
+    public function restartAll(Request $request, Response $response, array $args)
+    {
+        $instance = $this->app['manager']->get($args['instance']);
+
+        $instance->stopAllProcesses(false);
+        $instance->startAllProcesses(false);
+
+        return new RedirectResponse('/');
+    }
+
+    /**
+     * Stops all processes in an instance
+     *
+     * @param Request  $request
+     * @param Response $response
+     * @param array    $args
+     *
+     * @return Response
+     */
+    public function stopAll(Request $request, Response $response, array $args)
+    {
+        $instance = $this->app['manager']->get($args['instance']);
+
+        $instance->stopAllProcesses(false);
+
+        return new RedirectResponse('/');
+    }
+
+    /**
+     * Starts a process in an instance
+     *
+     * @param Request  $request
+     * @param Response $response
+     * @param array    $args
+     *
+     * @return Response
+     */
+    public function startProcess(Request $request, Response $response, array $args)
+    {
+        $instance = $this->app['manager']->get($args['instance']);
+
+        $instance->startProcess($args['process'], false);
+
+        return new RedirectResponse('/');
+    }
+
+    /**
+     * Restarts a process in an instance
+     *
+     * @param Request  $request
+     * @param Response $response
+     * @param array    $args
+     *
+     * @return Response
+     */
+    public function restartProcess(Request $request, Response $response, array $args)
+    {
+        $instance = $this->app['manager']->get($args['instance']);
+
+        $instance->stopProcess($args['process'], false);
+        $instance->startProcess($args['process'], false);
+
+        return new RedirectResponse('/');
+    }
+
+    /**
+     * Stops a process in an instance
+     *
+     * @param Request  $request
+     * @param Response $response
+     * @param array    $args
+     *
+     * @return Response
+     */
+    public function stopProcess(Request $request, Response $response, array $args)
+    {
+        $instance = $this->app['manager']->get($args['instance']);
+
+        $instance->stopProcess($args['process'], false);
+
+        return new RedirectResponse('/');
     }
 }

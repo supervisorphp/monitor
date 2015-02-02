@@ -22,4 +22,12 @@ $app->setContainer($container);
 
 $app->get('/', 'controller::index');
 
+$app->get('/start/{instance}', 'controller::startAll');
+$app->get('/restart/{instance}', 'controller::restartAll');
+$app->get('/stop/{instance}', 'controller::stopAll');
+
+$app->get('/start/{instance}/{process}', 'controller::startProcess');
+$app->get('/restart/{instance}/{process}', 'controller::restartProcess');
+$app->get('/stop/{instance}/{process}', 'controller::stopProcess');
+
 $app->run();
