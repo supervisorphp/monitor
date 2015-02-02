@@ -22,6 +22,37 @@ use Doctrine\Common\Inflector\Inflector;
 class TwigExtension extends \Twig_Extension
 {
     /**
+     * Maps a state to a color
+     *
+     * @var array
+     */
+    protected $stateMap = [
+        'STOPPED'  => 'danger',
+        'STOPPING' => 'danger',
+        'EXITED'   => 'danger',
+        'FATAL'    => 'danger',
+        'UNKNOWN'  => 'danger',
+        'STARTING' => 'success',
+        'RUNNING'  => 'success',
+        'BACKOFF'  => 'warning'
+    ];
+
+    /**
+     * Maps a state to a timestamp
+     *
+     * @var array
+     */
+    protected $stateAgoMap = [
+        'STOPPED'  => 'stop',
+        'STOPPING' => 'stop',
+        'EXITED'   => 'stop',
+        'FATAL'    => 'stop',
+        'UNKNOWN'  => 'stop',
+        'STARTING' => 'start',
+        'RUNNING'  => 'start',
+    ];
+
+    /**
      * {@inheritdoc}
      */
     public function getName()
@@ -50,23 +81,11 @@ class TwigExtension extends \Twig_Extension
      */
     public function stateAgo(array $process)
     {
-        switch ($process['statename']) {
-            case 'STOPPED':
-            case 'STOPPING':
-            case 'EXITED':
-            case 'FATAL':
-            case 'UNKNOWN':
-                $from = Carbon::createFromTimestamp($process['stop']);
-                break;
-
-            case 'STARTING':
-            case 'RUNNING':
-            default:
-                $from = Carbon::createFromTimestamp($process['start']);
-                break;
+        if (isset($this->stateAgoMap[$process['statename']])) {
+            return Carbon::createFromTimestamp($process[$this->stateAgoMap[$process['statename']]])->diffForHumans();
         }
 
-        return $from->diffForHumans();
+        return 'No uptime info';
     }
 
     /**
@@ -78,29 +97,11 @@ class TwigExtension extends \Twig_Extension
      */
     public function state($state)
     {
-        switch ($state) {
-            case 'STOPPED':
-            case 'STOPPING':
-            case 'EXITED':
-            case 'FATAL':
-            case 'UNKNOWN':
-                return 'danger';
-                break;
-
-            case 'STARTING':
-            case 'RUNNING':
-                return 'success';
-                break;
-
-            case 'BACKOFF':
-                return 'warning';
-                break;
-                break;
-
-            default:
-                return 'default';
-                break;
+        if (isset($this->stateMap[$state])) {
+            return $this->stateMap[$state];
         }
+
+        return 'default';
     }
 
     /**
