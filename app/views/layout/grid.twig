@@ -21,7 +21,7 @@
                                     <td>{{ process.name }}</td>
                                     <td><span class="label label-{{ process.statename|state }}">{{ process.statename }}</span></td>
                                     <td>{{ process|state_ago }}</td>
-                                    <td>{% include 'actions.twig' with {'instance': name, 'process': process.name} only %}</td>
+                                    <td>{% include 'actions.twig' with {'instance': name, 'process': process.name, 'group': process.group} only %}</td>
                                 </tr>
                             {% else %}
                                 <tr><td><i>No processes</i></td></tr>
