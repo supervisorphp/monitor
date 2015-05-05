@@ -6,7 +6,7 @@
             {% for name,instance in row %}
                 {% set processes = instance.getAllProcessInfo() %}
                 {% set allProcessCount = processes|length %}
-                {% set processes = processes|slice(0, 10) %}
+                {% set processes = processes %}
                 <div class="col-lg-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
