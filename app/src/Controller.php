@@ -48,12 +48,116 @@ class Controller
     public function index(Request $request, Response $response, array $args)
     {
         $layout = $request->query->get('layout', 'grid');
-        in_array($layout, ['grid', 'list']) or $layout = 'grid';
+
+        $instances = $this->app['manager']->getAll();
+
+        $allProcesses = [];
+        $hosts = [];
+        $groups = [];
+        $stopped = 0;
+
+        //Building datas for layout
+        foreach ($instances as $key => $value) {
+            $processes = $value->getAllProcessInfo();
+                foreach ($processes as $process) {
+                    $process['host'] = $key;
+                    $allProcesses[] = $process;
+                    $hosts[] = $process['host'];
+                    $groups[] = $process['group'];
+                    if ($process['state'] == 'STOPPED') {
+                        $stopped++;
+                    }
+                }
+        }
+        
+        $hosts = array_unique($hosts);
+        $groups = array_unique($groups);
+        sort($hosts);
+        sort($groups);
+
+        switch($layout) {
+            case 'grid':
+                break;
+            case 'list':
+                break;
+            case 'dashboard':
+                break;
+            case 'global':
+                $filter = $request->query->get('filter', 'none');
+                $filter_value = $request->query->get('filter_value', 'none');
+                $sort = $request->query->get('sort', 'none');
+
+                switch($filter) {
+                    case 'group':
+                        $allProcesses = $this->filter_processes($filter, $filter_value, $allProcesses);
+                        break;
+                    case 'host':
+                        $allProcesses = $this->filter_processes($filter, $filter_value, $allProcesses);
+                        break;
+                    case 'state':
+                        $allProcesses = $this->filter_processes($filter, $filter_value, $allProcesses);
+                        break;
+                }
+
+                switch($sort) {
+                    case 'group':
+                        usort($allProcesses, array($this,'group_sort'));
+                        break;
+                    case 'host':
+                        usort($allProcesses, array($this,'host_sort'));
+                        break;
+                    case 'state':
+                        usort($allProcesses, array($this,'state_sort'));
+                        break;
+                    case 'start':
+                        usort($allProcesses, array($this,'start_sort'));
+                        break;
+                }
+
+                break;
+            default:
+                $layout = 'grid';
+                break;
+            }
 
         $template = $this->app['twig']->loadTemplate(sprintf('layout/%s.twig', $layout));
-        $response->setContent($template->render(['instances' => $this->app['manager']->getAll()]));
+
+        $response->setContent($template->render([
+                'instances' => $instances,
+                'hosts' => $hosts,
+                'allProcesses' => $allProcesses,
+                'stopped' => $stopped,
+                'groups' => $groups
+                ]));
 
         return $response;
+    }
+
+    private function group_sort($a, $b) {
+        return strcmp($a["group"], $b["group"]);
+    }
+
+    private function host_sort($a, $b) {
+        return strcmp($a["host"], $b["host"]);
+    }
+
+    private function start_sort($a, $b) {
+        return $a["start"] > $b["start"];
+    }
+
+    private function state_sort($a, $b) {
+        return $a["state"] > $b["state"];
+    }
+
+    private function filter_processes($key, $value, $processes) {
+        $tokeep = [];
+        foreach ($processes as $process) {
+            //TODO key exist ?
+            if ($process[$key] == $value) {
+                $tokeep[] = $process;
+            }
+        }
+        return $tokeep;
     }
 
     /**
