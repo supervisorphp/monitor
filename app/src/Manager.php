@@ -58,8 +58,9 @@ class Manager
 
         $config = $this->config[$instance];
         $transport = new StreamSocketTransport;
-
-        $transport->setHeader('Authorization', 'Basic '.base64_encode(sprintf('%s:%s', $config['username'], $config['password'])));
+        if (array_key_exists('username', $config) && array_key_exists('username', $config)) {
+            $transport->setHeader('Authorization', 'Basic '.base64_encode(sprintf('%s:%s', $config['username'], $config['password'])));
+        }
 
         $client = new Client($config['url'], $transport);
         $connector = new XmlRpc($client);
