@@ -54,7 +54,7 @@ class Controller
         $allProcesses = [];
         $hosts = [];
         $groups = [];
-        $stopped = 0;
+        $notRunning = 0;
 
         //Building datas for layout
         foreach ($instances as $key => $value) {
@@ -62,18 +62,16 @@ class Controller
                 foreach ($processes as $process) {
                     $process['host'] = $key;
                     $allProcesses[] = $process;
-                    $hosts[] = $process['host'];
-                    $groups[] = $process['group'];
-                    if ($process['state'] == 'STOPPED') {
-                        $stopped++;
+                    array_key_exists($process['host'], $hosts) ? $hosts[$process['host']] += 1 : $hosts[$process['host']] = 1 ;
+                    array_key_exists($process['group'], $groups) ? $groups[$process['group']] += 1 : $groups[$process['group']] = 1;
+                    if ($process['statename'] != 'RUNNING') {
+                        $notRunning++;
                     }
                 }
         }
         
-        $hosts = array_unique($hosts);
-        $groups = array_unique($groups);
-        sort($hosts);
-        sort($groups);
+        ksort($hosts);
+        ksort($groups);
 
         switch($layout) {
             case 'grid':
@@ -126,7 +124,7 @@ class Controller
                 'instances' => $instances,
                 'hosts' => $hosts,
                 'allProcesses' => $allProcesses,
-                'stopped' => $stopped,
+                'notRunning' => $notRunning,
                 'groups' => $groups
                 ]));
 
