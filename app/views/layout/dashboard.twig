@@ -1,6 +1,20 @@
 {% extends 'template.twig' %}
 
 {% block content %}
+        {% if unreachableHosts is not empty %}
+            <div class="row">
+                <div class="col-lg-offset-2 col-lg-8">
+                    <div class="alert alert-danger" role="alert">
+                    One or more host unreachable:
+                    <ul>
+                    {% for host in unreachableHosts %}
+                        <li>{{ host }}</li>
+                    {% endfor %}
+                    </ul>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
         <div class="row">
                 <div class="col-lg-offset-2 col-lg-4">
                 <div class="panel panel-default">

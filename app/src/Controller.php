@@ -54,11 +54,13 @@ class Controller
         $allProcesses = [];
         $hosts = [];
         $groups = [];
+        $unreachableHosts = [];
         $notRunning = 0;
 
         //Building datas for layout
         foreach ($instances as $key => $value) {
-            $processes = $value->getAllProcessInfo();
+            if($value->isConnected()) {
+                $processes = $value->getAllProcessInfo();
                 foreach ($processes as $process) {
                     $process['host'] = $key;
                     $allProcesses[] = $process;
@@ -68,6 +70,10 @@ class Controller
                         $notRunning++;
                     }
                 }
+            }
+            else {
+                $unreachableHosts[] = $key;
+            }
         }
         
         ksort($hosts);
@@ -125,6 +131,7 @@ class Controller
                 'hosts' => $hosts,
                 'allProcesses' => $allProcesses,
                 'notRunning' => $notRunning,
+                'unreachableHosts' => $unreachableHosts,
                 'groups' => $groups
                 ]));
 
