@@ -232,7 +232,7 @@ class Controller
                 $processes = $instance->getAllProcessInfo();
                     foreach ($processes as $process) {
                         if ($process['group'] == $group) {
-                            $instance->stopProcess($process['name'], false);
+                            $instance->stopProcess($process['name'], true);
                             $instance->startProcess($process['name'], false);
                         }
                     }
@@ -284,7 +284,7 @@ class Controller
     {
         $instance = $this->app['manager']->get($args['instance']);
 
-        $instance->stopAllProcesses(false);
+        $instance->stopAllProcesses(true);
         $instance->startAllProcesses(false);
 
         return new RedirectResponse('/');
@@ -339,7 +339,7 @@ class Controller
     {
         $instance = $this->app['manager']->get($args['instance']);
 
-        $instance->stopProcess($args['process'], false);
+        $instance->stopProcess($args['process'], true);
         $instance->startProcess($args['process'], false);
 
         return new RedirectResponse('/');
