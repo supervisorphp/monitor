@@ -22,6 +22,10 @@ $app->setContainer($container);
 
 $app->get('/', 'controller::index');
 
+$app->get('/group/start/{group}', 'controller::startGroup');
+$app->get('/group/restart/{group}', 'controller::restartGroup');
+$app->get('/group/stop/{group}', 'controller::stopGroup');
+
 $app->get('/start/{instance}', 'controller::startAll');
 $app->get('/restart/{instance}', 'controller::restartAll');
 $app->get('/stop/{instance}', 'controller::stopAll');
@@ -29,5 +33,6 @@ $app->get('/stop/{instance}', 'controller::stopAll');
 $app->get('/start/{instance}/{process}', 'controller::startProcess');
 $app->get('/restart/{instance}/{process}', 'controller::restartProcess');
 $app->get('/stop/{instance}/{process}', 'controller::stopProcess');
+
 
 $app->run();

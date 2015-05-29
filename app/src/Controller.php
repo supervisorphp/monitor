@@ -47,7 +47,7 @@ class Controller
      */
     public function index(Request $request, Response $response, array $args)
     {
-        $layout = $request->query->get('layout', 'grid');
+        $layout = $request->query->get('layout', 'dashboard');
 
         $instances = $this->app['manager']->getAll();
 
@@ -180,6 +180,94 @@ class Controller
 
         $instance->startAllProcesses(false);
 
+        return new RedirectResponse('/');
+    }
+
+    /**
+     * Starts all processes with specific group
+     *
+     * @param Request  $request
+     * @param Response $response
+     * @param array    $args
+     *
+     * @return Response
+     */
+    public function startGroup(Request $request, Response $response, array $args)
+    {
+        $group = $args['group'];
+
+        $instances = $this->app['manager']->getAll();
+
+        foreach ($instances as $name => $instance) {
+            if($instance->isConnected()) {
+                $processes = $instance->getAllProcessInfo();
+                    foreach ($processes as $process) {
+                        if ($process['group'] == $group) {
+                            $instance->startProcess($process['name'], false);
+                        }
+                    }
+            }
+        }
+                            
+        return new RedirectResponse('/');
+    }
+
+    /**
+     * Restarts all processes with specific group
+     *
+     * @param Request  $request
+     * @param Response $response
+     * @param array    $args
+     *
+     * @return Response
+     */
+    public function restartGroup(Request $request, Response $response, array $args)
+    {
+        $group = $args['group'];
+
+        $instances = $this->app['manager']->getAll();
+
+        foreach ($instances as $name => $instance) {
+            if($instance->isConnected()) {
+                $processes = $instance->getAllProcessInfo();
+                    foreach ($processes as $process) {
+                        if ($process['group'] == $group) {
+                            $instance->stopProcess($process['name'], false);
+                            $instance->startProcess($process['name'], false);
+                        }
+                    }
+            }
+        }
+                            
+        return new RedirectResponse('/');
+    }
+
+    /**
+     * Stops all processes with specific group
+     *
+     * @param Request  $request
+     * @param Response $response
+     * @param array    $args
+     *
+     * @return Response
+     */
+    public function stopGroup(Request $request, Response $response, array $args)
+    {
+        $group = $args['group'];
+
+        $instances = $this->app['manager']->getAll();
+
+        foreach ($instances as $name => $instance) {
+            if($instance->isConnected()) {
+                $processes = $instance->getAllProcessInfo();
+                    foreach ($processes as $process) {
+                        if ($process['group'] == $group) {
+                            $instance->stopProcess($process['name'], false);
+                        }
+                    }
+            }
+        }
+                            
         return new RedirectResponse('/');
     }
 
