@@ -48,6 +48,9 @@ class Controller
     public function index(Request $request, Response $response, array $args)
     {
         $layout = $request->query->get('layout', 'dashboard');
+        $filter = $request->query->get('filter', 'none');
+        $filter_value = $request->query->get('filter_value', 'none');
+        $sort = $request->query->get('sort', 'none');
 
         $instances = $this->app['manager']->getAll();
 
@@ -87,10 +90,6 @@ class Controller
             case 'dashboard':
                 break;
             case 'global':
-                $filter = $request->query->get('filter', 'none');
-                $filter_value = $request->query->get('filter_value', 'none');
-                $sort = $request->query->get('sort', 'none');
-
                 switch($filter) {
                     case 'group':
                         $allProcesses = $this->filter_processes($filter, $filter_value, $allProcesses);
@@ -131,6 +130,8 @@ class Controller
                 'hosts' => $hosts,
                 'allProcesses' => $allProcesses,
                 'notRunning' => $notRunning,
+                'filter' => $filter,
+                'filter_value' => $filter_value,
                 'unreachableHosts' => $unreachableHosts,
                 'groups' => $groups
                 ]));
@@ -166,24 +167,6 @@ class Controller
     }
 
     /**
-     * Starts all processes in an instance
-     *
-     * @param Request  $request
-     * @param Response $response
-     * @param array    $args
-     *
-     * @return Response
-     */
-    public function startAll(Request $request, Response $response, array $args)
-    {
-        $instance = $this->app['manager']->get($args['instance']);
-
-        $instance->startAllProcesses(false);
-
-        return new RedirectResponse('/');
-    }
-
-    /**
      * Starts all processes with specific group
      *
      * @param Request  $request
@@ -209,7 +192,7 @@ class Controller
             }
         }
                             
-        return new RedirectResponse('/');
+        return new RedirectResponse("/?layout=global&filter=group&filter_value=$group");
     }
 
     /**
@@ -239,7 +222,7 @@ class Controller
             }
         }
                             
-        return new RedirectResponse('/');
+        return new RedirectResponse("/?layout=global&filter=group&filter_value=$group");
     }
 
     /**
@@ -268,7 +251,27 @@ class Controller
             }
         }
                             
-        return new RedirectResponse('/');
+        return new RedirectResponse("/?layout=global&filter=group&filter_value=$group");
+    }
+
+    /**
+     * Starts all processes in an instance
+     *
+     * @param Request  $request
+     * @param Response $response
+     * @param array    $args
+     *
+     * @return Response
+     */
+    public function startAll(Request $request, Response $response, array $args)
+    {
+        $host = $args['instance'];
+
+        $instance = $this->app['manager']->get($host);
+
+        $instance->startAllProcesses(false);
+
+        return new RedirectResponse("/?layout=global&filter=host&filter_value=$host");
     }
 
     /**
@@ -282,12 +285,14 @@ class Controller
      */
     public function restartAll(Request $request, Response $response, array $args)
     {
-        $instance = $this->app['manager']->get($args['instance']);
+        $host = $args['instance'];
+
+        $instance = $this->app['manager']->get($host);
 
         $instance->stopAllProcesses(true);
         $instance->startAllProcesses(false);
 
-        return new RedirectResponse('/');
+        return new RedirectResponse("/?layout=global&filter=host&filter_value=$host");
     }
 
     /**
@@ -301,11 +306,13 @@ class Controller
      */
     public function stopAll(Request $request, Response $response, array $args)
     {
-        $instance = $this->app['manager']->get($args['instance']);
+        $host = $args['instance'];
+
+        $instance = $this->app['manager']->get($host);
 
         $instance->stopAllProcesses(false);
 
-        return new RedirectResponse('/');
+        return new RedirectResponse("/?layout=global&filter=host&filter_value=$host");
     }
 
     /**

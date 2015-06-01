@@ -26,6 +26,10 @@ $app->get('/group/start/{group}', 'controller::startGroup');
 $app->get('/group/restart/{group}', 'controller::restartGroup');
 $app->get('/group/stop/{group}', 'controller::stopGroup');
 
+$app->get('/host/start/{instance}', 'controller::startAll');
+$app->get('/host/restart/{instance}', 'controller::restartAll');
+$app->get('/host/stop/{instance}', 'controller::stopAll');
+
 $app->get('/start/{instance}', 'controller::startAll');
 $app->get('/restart/{instance}', 'controller::restartAll');
 $app->get('/stop/{instance}', 'controller::stopAll');
