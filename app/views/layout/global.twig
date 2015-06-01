@@ -1,7 +1,7 @@
 {% extends 'template.twig' %}
 
 {% block content %}
-        {% if filter != none %}
+        {% if ( filter != none ) and ( ( filter == 'host' ) or ( filter == 'group' ) ) %}
                 <div class="panel-heading">
                     <strong>{{ filter_value }}</strong> | {{ allProcesses|length|pluralize('process') }}
                     <span>

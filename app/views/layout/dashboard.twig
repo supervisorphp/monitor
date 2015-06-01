@@ -24,8 +24,9 @@
                 </div>
                 <div class="col-lg-4">
                 <div class="panel panel-default">
-                    <h3>Not Running <span class="label label-danger">{{ notRunning }}</span></h3>
-                <a href="/?layout=global&filter=state&amp;filter_value=STOPPED">View stopped processes</a>
+                    {% for state, count in states %}
+                        <h3>{{ state }} <a href="/?layout=global&filter=statename&amp;filter_value={{ state }}"><span class="label label-default">{{ count }}</span></a></h3>
+                    {% endfor %}
                 </div>
                 </div>
         </div>

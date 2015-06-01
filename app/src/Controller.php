@@ -59,6 +59,7 @@ class Controller
         $groups = [];
         $unreachableHosts = [];
         $notRunning = 0;
+        $states = [];
 
         //Building datas for layout
         foreach ($instances as $key => $value) {
@@ -69,9 +70,7 @@ class Controller
                     $allProcesses[] = $process;
                     array_key_exists($process['host'], $hosts) ? $hosts[$process['host']] += 1 : $hosts[$process['host']] = 1 ;
                     array_key_exists($process['group'], $groups) ? $groups[$process['group']] += 1 : $groups[$process['group']] = 1;
-                    if ($process['statename'] != 'RUNNING') {
-                        $notRunning++;
-                    }
+                    array_key_exists($process['statename'], $states) ? $states[$process['statename']] += 1 : $states[$process['statename']] = 1;
                 }
             }
             else {
@@ -97,7 +96,7 @@ class Controller
                     case 'host':
                         $allProcesses = $this->filter_processes($filter, $filter_value, $allProcesses);
                         break;
-                    case 'state':
+                    case 'statename':
                         $allProcesses = $this->filter_processes($filter, $filter_value, $allProcesses);
                         break;
                 }
@@ -129,7 +128,7 @@ class Controller
                 'instances' => $instances,
                 'hosts' => $hosts,
                 'allProcesses' => $allProcesses,
-                'notRunning' => $notRunning,
+                'states' => $states,
                 'filter' => $filter,
                 'filter_value' => $filter_value,
                 'unreachableHosts' => $unreachableHosts,
