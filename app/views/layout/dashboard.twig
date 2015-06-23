@@ -1,0 +1,56 @@
+{% extends 'template.twig' %}
+
+{% block content %}
+        {% if unreachableHosts is not empty %}
+            <div class="row">
+                <div class="col-lg-offset-2 col-lg-8">
+                    <div class="alert alert-danger" role="alert">
+                    One or more host unreachable:
+                    <ul>
+                    {% for host in unreachableHosts %}
+                        <li>{{ host }}</li>
+                    {% endfor %}
+                    </ul>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <div class="row">
+                <div class="col-lg-offset-2 col-lg-4">
+                <div class="panel panel-default">
+                    <h3>Total processes <span class="label label-default">{{ allProcesses|length }}</span></h3>
+                <a href="/?layout=global&filter=group&amp;filter_value=all">View all processes</a>
+                </div>
+                </div>
+                <div class="col-lg-4">
+                <div class="panel panel-default">
+                    {% for state, count in states %}
+                        <h3>{{ state }} <a href="/?layout=global&filter=statename&amp;filter_value={{ state }}"><span class="label label-default">{{ count }}</span></a></h3>
+                    {% endfor %}
+                </div>
+                </div>
+        </div>
+        <div class="row">
+                <div class="col-lg-offset-2 col-lg-4">
+                    <div class="panel panel-default">
+                    <h3>Hosts <span class="label label-default">{{ hosts|length }}</span></h3>
+                    <ul>
+                    {% for host,number in hosts %}
+                        <li><span class="label label-default">{{ number }}</span> <a href="/?layout=global&amp;filter=host&amp;filter_value={{host}}">{{ host }}</a></li>
+                    {% endfor %}
+                    </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                    <h3>Groups <span class="label label-default">{{ groups|length }}</span></h3>
+                    <ul>
+                    {% for group,number in groups %}
+                        <li><span class="label label-default">{{ number }}</span> <a href="/?layout=global&amp;filter=group&amp;filter_value={{ group }}">{{ group }}</a></li>
+                    {% endfor %}
+                    </ul>
+                    </div>
+                </div>
+        </div>
+{% endblock %}
+
