@@ -186,7 +186,7 @@ class Controller
                 $processes = $instance->getAllProcessInfo();
                     foreach ($processes as $process) {
                         if ($process['group'] == $group || $group == 'all') {
-                            $instance->startProcess($process['name'], false);
+                            $instance->startProcess($process['group'] . ':' . $process['name'], false);
                         }
                     }
             }
@@ -215,8 +215,8 @@ class Controller
                 $processes = $instance->getAllProcessInfo();
                     foreach ($processes as $process) {
                         if ($process['group'] == $group || $group == 'all') {
-                            $instance->stopProcess($process['name'], true);
-                            $instance->startProcess($process['name'], false);
+                            $instance->stopProcess($process['group'] . ':' . $process['name'], true);
+                            $instance->startProcess($process['group'] . ':' . $process['name'], false);
                         }
                     }
             }
@@ -245,7 +245,7 @@ class Controller
                 $processes = $instance->getAllProcessInfo();
                     foreach ($processes as $process) {
                         if ($process['group'] == $group || $group == 'all') {
-                            $instance->stopProcess($process['name'], false);
+                            $instance->stopProcess($process['group'] . ':' . $process['name'], false);
                         }
                     }
             }
