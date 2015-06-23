@@ -155,7 +155,7 @@ class Controller
     }
 
     private function filter_processes($key, $value, $processes) {
-        $value == 'all' ? return $processes;
+        if ($value == 'all') return $processes;
         $tokeep = [];
         foreach ($processes as $process) {
             //TODO key exist ?
