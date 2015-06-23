@@ -185,7 +185,7 @@ class Controller
             if($instance->isConnected()) {
                 $processes = $instance->getAllProcessInfo();
                     foreach ($processes as $process) {
-                        if ($process['group'] == $group) {
+                        if ($process['group'] == $group || $group == 'all') {
                             $instance->startProcess($process['name'], false);
                         }
                     }
@@ -214,7 +214,7 @@ class Controller
             if($instance->isConnected()) {
                 $processes = $instance->getAllProcessInfo();
                     foreach ($processes as $process) {
-                        if ($process['group'] == $group) {
+                        if ($process['group'] == $group || $group == 'all') {
                             $instance->stopProcess($process['name'], true);
                             $instance->startProcess($process['name'], false);
                         }
@@ -244,7 +244,7 @@ class Controller
             if($instance->isConnected()) {
                 $processes = $instance->getAllProcessInfo();
                     foreach ($processes as $process) {
-                        if ($process['group'] == $group) {
+                        if ($process['group'] == $group || $group == 'all') {
                             $instance->stopProcess($process['name'], false);
                         }
                     }
