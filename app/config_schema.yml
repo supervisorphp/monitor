@@ -1,0 +1,5 @@
+root:
+  _type: prototype
+  _prototype:
+    _type: text
+
