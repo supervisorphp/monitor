@@ -71,7 +71,7 @@ class Controller
 
         $instance->startAllProcesses($this->app->getConfig('waitForSupervisor', false));
 
-        return new RedirectResponse($this->app->getConfig('dir'),'/');
+        return new RedirectResponse($this->app->getConfig('dir','/'));
     }
 
     /**
@@ -90,7 +90,7 @@ class Controller
         $instance->stopAllProcesses($this->app->getConfig('waitForSupervisor', false));
         $instance->startAllProcesses($this->app->getConfig('waitForSupervisor', false));
 
-        return new RedirectResponse($this->app->getConfig('dir'),'/');
+        return new RedirectResponse($this->app->getConfig('dir','/'));
     }
 
     /**
@@ -108,7 +108,7 @@ class Controller
 
         $instance->stopAllProcesses($this->app->getConfig('waitForSupervisor', false));
 
-        return new RedirectResponse($this->app->getConfig('dir'),'/');
+        return new RedirectResponse($this->app->getConfig('dir','/'));
     }
 
     /**
@@ -126,7 +126,7 @@ class Controller
 
         $instance->startProcess($args['process'], $this->app->getConfig('waitForSupervisor', false));
 
-        return new RedirectResponse($this->app->getConfig('dir'),'/');
+        return new RedirectResponse($this->app->getConfig('dir','/'));
     }
 
     /**
@@ -145,7 +145,7 @@ class Controller
         $instance->stopProcess($args['process'], $this->app->getConfig('waitForSupervisor', false));
         $instance->startProcess($args['process'], $this->app->getConfig('waitForSupervisor', false));
 
-        return new RedirectResponse($this->app->getConfig('dir'),'/');
+        return new RedirectResponse($this->app->getConfig('dir','/'));
     }
 
     /**
@@ -163,6 +163,6 @@ class Controller
 
         $instance->stopProcess($args['process'], $this->app->getConfig('waitForSupervisor', false));
 
-        return new RedirectResponse($this->app->getConfig('dir'),'/');
+        return new RedirectResponse($this->app->getConfig('dir','/'));
     }
 }
