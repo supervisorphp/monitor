@@ -21,7 +21,7 @@ $app = new Application;
 $app->setContainer($container);
 
 require __DIR__.'/../app/config.php';
-config::setupConfig($app);
+Config::setupConfig($app);
 
 $app->get('/', 'controller::index');
 

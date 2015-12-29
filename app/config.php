@@ -13,9 +13,9 @@ use RomaricDrigon\MetaYaml\Loader\YamlLoader;
 use RomaricDrigon\MetaYaml\MetaYaml;
 use Proton\Application;
 
-class config {
+class Config {
 
-    static function setupConfig(Application &$app) {
+    static function setupConfig(Application $app) {
         $loader = new YamlLoader;
         $schema = new MetaYaml($loader->loadFromFile(__DIR__ . '/config_schema.yml'));
 
