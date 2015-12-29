@@ -20,6 +20,9 @@ $container = new Container($bootstrap);
 $app = new Application;
 $app->setContainer($container);
 
+require __DIR__.'/../app/config.php';
+config::setupConfig($app);
+
 $app->get('/', 'controller::index');
 
 $app->get('/start/{instance}', 'controller::startAll');

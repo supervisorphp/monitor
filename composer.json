@@ -15,7 +15,7 @@
         "alexbilbie/proton": "~1.2",
         "twig/twig": "~1.18",
         "supervisorphp/supervisor": "~3.0",
-        "lstrojny/fxmlrpc": "~0.9",
+        "lstrojny/fxmlrpc": "0.9.3",
         "nesbot/Carbon": "~1.13",
         "doctrine/inflector": "~1.0",
         "romaricdrigon/metayaml": "~1.0"
