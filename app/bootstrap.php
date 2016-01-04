@@ -9,21 +9,21 @@
  * file that was distributed with this source code.
  */
 
-use Supervisor\Monitor\Manager;
 use RomaricDrigon\MetaYaml\Loader\YamlLoader;
 use RomaricDrigon\MetaYaml\MetaYaml;
+use Supervisor\Monitor\Manager;
 
 return [
     'di' => [
         'manager' => [
-            'definition' => function() {
-                $loader = new YamlLoader;
+            'definition' => function () {
+                $loader = new YamlLoader();
                 $schema = new MetaYaml($loader->loadFromFile(__DIR__.'/schema.yml'));
 
                 $schema->validate($config = $loader->loadFromFile(__DIR__.'/../config/supervisor.yml'));
 
                 return new Manager($config);
-            }
+            },
         ],
         'twig_loader' => [
             'class'     => 'Twig_Loader_Filesystem',

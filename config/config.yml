@@ -1,1 +1,2 @@
 waitForSupervisor: true
+globalActions: true

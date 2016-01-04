@@ -15,14 +15,14 @@ use Carbon\Carbon;
 use Doctrine\Common\Inflector\Inflector;
 
 /**
- * Custom Twig extension
+ * Custom Twig extension.
  *
  * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
  */
 class TwigExtension extends \Twig_Extension
 {
     /**
-     * Maps a state to a color
+     * Maps a state to a color.
      *
      * @var array
      */
@@ -34,11 +34,11 @@ class TwigExtension extends \Twig_Extension
         'UNKNOWN'  => 'danger',
         'STARTING' => 'success',
         'RUNNING'  => 'success',
-        'BACKOFF'  => 'warning'
+        'BACKOFF'  => 'warning',
     ];
 
     /**
-     * Maps a state to a timestamp
+     * Maps a state to a timestamp.
      *
      * @var array
      */
@@ -73,7 +73,7 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Display time in x ago format based on a state
+     * Display time in x ago format based on a state.
      *
      * @param array $process
      *
@@ -96,7 +96,7 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Returns a color based on state name
+     * Returns a color based on state name.
      *
      * @param string $state
      *
@@ -112,10 +112,10 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * Pluralize a string based on a count
+     * Pluralize a string based on a count.
      *
-     * @param integer $count
-     * @param string  $string
+     * @param int    $count
+     * @param string $string
      *
      * @return string
      */
