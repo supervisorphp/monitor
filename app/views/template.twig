@@ -11,8 +11,13 @@
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
         <style type="text/css">
             body {
+                {% if globalActions is defined and globalActions == true %}
+                padding-top: 50px;
+                {% else %}
                 padding-top: 100px;
+                {% endif %}
             }
+        {% block style %}{% endblock %}            
         </style>
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -33,7 +38,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Supervisor Monitor</a>
+                    <a class="navbar-brand" href="{% if baseUrl is defined%}{{ baseUrl }}{% else %}#{% endif %}">Supervisor Monitor</a>
                 </div>
                 <div id="navbar" class="collapse navbar-collapse navbar-right">
                     <ul class="nav navbar-nav">
@@ -43,7 +48,17 @@
                 </div>
             </div>
         </nav>
-
+        {% if globalActions is defined and globalActions == true %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Global actions:&nbsp;
+                <a href="start" title="Start" data-toggle="tooltip"><span class="glyphicon glyphicon-play text-success"></span></a>&nbsp;
+                <a href="restart" title="Restart" data-toggle="tooltip"><span class="glyphicon glyphicon-refresh"></span></a>&nbsp;
+                <a href="stop" title="Stop" data-toggle="tooltip"><span class="glyphicon glyphicon-stop text-danger"></span></a>&nbsp;
+                <a href="clearAllProcessLogs" title="Clear logs" data-toggle="tooltip"><span class="glyphicon glyphicon-remove"></span></a>&nbsp;
+            </div>
+        </div>
+        {% endif %}
         <div class="container-fluid">
             {% block content %}{% endblock %}
         </div>
@@ -56,5 +71,8 @@
                 $('[data-toggle="tooltip"]').tooltip()
             })
         </script>
+        {% block script %}{% endblock %}
     </body>
-</html>
+{% if doNotClose is not defined or doNotClose == false %}
+</html> 
+{% endif %}

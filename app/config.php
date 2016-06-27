@@ -9,17 +9,18 @@
  * file that was distributed with this source code.
  */
 
+use Proton\Application;
 use RomaricDrigon\MetaYaml\Loader\YamlLoader;
 use RomaricDrigon\MetaYaml\MetaYaml;
-use Proton\Application;
 
-class Config {
+class config
+{
+    public static function setupConfig(Application $app)
+    {
+        $loader = new YamlLoader();
+        $schema = new MetaYaml($loader->loadFromFile(__DIR__.'/config_schema.yml'));
 
-    static function setupConfig(Application $app) {
-        $loader = new YamlLoader;
-        $schema = new MetaYaml($loader->loadFromFile(__DIR__ . '/config_schema.yml'));
-
-        $schema->validate($config = $loader->loadFromFile(__DIR__ . '/../config/config.yml'));
+        $schema->validate($config = $loader->loadFromFile(__DIR__.'/../config/config.yml'));
 
         foreach ($config as $key => $value) {
             $app->setConfig($key, $value);
@@ -31,5 +32,4 @@ class Config {
         }
         $app->setConfig('dir', $dir);
     }
-
 }

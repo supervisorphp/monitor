@@ -11,8 +11,8 @@
 
 namespace Supervisor\Monitor;
 
-use fXmlRpc\Transport\StreamSocketTransport;
 use fXmlRpc\Client;
+use fXmlRpc\Transport\StreamSocketTransport;
 use Supervisor\Connector\XmlRpc;
 use Supervisor\Supervisor;
 
@@ -22,7 +22,7 @@ use Supervisor\Supervisor;
 class Manager
 {
     /**
-     * Created Supervisor instances
+     * Created Supervisor instances.
      *
      * @var Supervisor[]
      */
@@ -42,7 +42,7 @@ class Manager
     }
 
     /**
-     * Returns a specific instance
+     * Returns a specific instance.
      *
      * @param string $instance
      *
@@ -57,7 +57,7 @@ class Manager
         }
 
         $config = $this->config[$instance];
-        $transport = new StreamSocketTransport;
+        $transport = new StreamSocketTransport();
 
         $transport->setHeader('Authorization', 'Basic '.base64_encode(sprintf('%s:%s', $config['username'], $config['password'])));
 
@@ -68,7 +68,7 @@ class Manager
     }
 
     /**
-     * Returns all Supervisor instances
+     * Returns all Supervisor instances.
      *
      * @return Superisor[]
      */

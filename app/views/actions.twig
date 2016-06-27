@@ -1,3 +1,7 @@
 <a href="start/{{ instance }}/{{ group }}:{{ process }}" title="Start" data-toggle="tooltip"><span class="glyphicon glyphicon-play text-success"></span></a>
 <a href="restart/{{ instance }}/{{ group }}:{{ process }}" title="Restart" data-toggle="tooltip"><span class="glyphicon glyphicon-refresh"></span></a>
 <a href="stop/{{ instance }}/{{ group }}:{{ process }}" title="Stop" data-toggle="tooltip"><span class="glyphicon glyphicon-stop text-danger"></span></a>
+<a href="tailStdout/{{ instance }}/{{ group }}:{{ process }}" title="Tail -f stdout" data-toggle="tooltip"><span class="glyphicon glyphicon-log-out">Out</span></a>
+<a href="tailStderr/{{ instance }}/{{ group }}:{{ process }}" title="Tail -f stderr" data-toggle="tooltip"><span class="glyphicon glyphicon-log-out">Err</span></a>
+<a href="clearProcessLogs/{{ instance }}/{{ group }}:{{ process }}" title="Clear log files" data-toggle="tooltip"><span class="glyphicon glyphicon-remove"></span></a>
+

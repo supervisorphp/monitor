@@ -1,0 +1,55 @@
+{% set globalActions = false %}
+{% extends 'template.twig' %}
+
+{% block style %}
+.glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -ms-animation: spin .7s infinite linear;
+    -webkit-animation: spinw .7s infinite linear;
+    -moz-animation: spinm .7s infinite linear;
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
+
+@-webkit-keyframes spinw {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@-moz-keyframes spinm {
+    from { -moz-transform: rotate(0deg);}
+    to { -moz-transform: rotate(360deg);}
+}
+{% endblock %}
+
+{% block content %}
+    <div id="tail" class=""></div>
+    <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+{% endblock %}
+
+{% block script %}    
+    <script type="text/javascript">
+        function appendScroll(string)
+        {
+            if ($(window).height() + $(window).scrollTop() > (getDocumentHeight()-200)) {
+                var scroll = true;
+            }
+            $('#tail').append(string);
+            if (scroll) {
+                 $(window).scrollTop($('#tail')[0].scrollHeight);
+            }
+
+        }
+        function getDocumentHeight() 
+        {
+            return Math.max(
+                Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+                Math.max(document.body.offsetHeight, document.documentElement.offsetHeight),
+                Math.max(document.body.clientHeight, document.documentElement.clientHeight)
+            );
+        }
+    </script>
+{% endblock %}

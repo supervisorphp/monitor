@@ -17,7 +17,7 @@
 class RoboFile extends \Robo\Tasks
 {
     /**
-     * Runs a php server
+     * Runs a php server.
      */
     public function server($opt = ['port' => 8000])
     {
